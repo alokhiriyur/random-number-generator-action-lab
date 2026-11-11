@@ -1,0 +1,16 @@
+name: 'Random Number Generator'
+description: 'Generate a random number between 1 and 100'
+
+author: 'Alok Hiriyur'
+
+branding:
+  icon: 'shuffle'
+  color: 'blue'
+
+outputs:
+  random-number:
+    description: 'The generated random number'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
