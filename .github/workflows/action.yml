@@ -1,0 +1,30 @@
+name: Test Random Number Generator Action
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Generate random number
+        id: generator
+        uses: ./
+
+      - name: Validate generated number
+        env:
+          RANDOM_NUMBER: ${{ steps.generator.outputs.random-number }}
+        run: |
+          if ! [[ "$RANDOM_NUMBER" =~ ^[0-9]+$ ]] || (( RANDOM_NUMBER < 1 || RANDOM_NUMBER > 100 )); then
+            echo "Expected a number from 1 to 100, got: '$RANDOM_NUMBER'" >&2
+            exit 1
+          fi
+          echo "Action generated a valid number: $RANDOM_NUMBER"
